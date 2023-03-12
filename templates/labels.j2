@@ -13,10 +13,10 @@ traefik.http.middlewares.{{ miniflux_identifier }}-slashless-redirect.redirectre
 {% set middlewares = middlewares + [miniflux_identifier + '-slashless-redirect'] %}
 {% endif %}
 
-{# {% if miniflux_container_labels_traefik_path_prefix != '/' %}
-traefik.http.middlewares.{{ miniflux_identifier }}-strip-prefix.stripprefix.prefixes={{ miniflux_container_labels_traefik_path_prefix }}
-{% set middlewares = middlewares + [miniflux_identifier + '-strip-prefix'] %}
-{% endif %} #}
+{#
+	Intentionally not adding a stripPrefix middleware.
+	Miniflux seems to serve itself under the same prefix it sees in the BASE_URL environment variable.
+#}
 
 {% if miniflux_container_labels_traefik_additional_response_headers.keys() | length > 0 %}
 {% for name, value in miniflux_container_labels_traefik_additional_response_headers.items() %}

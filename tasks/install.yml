@@ -9,7 +9,6 @@
     group: "{{ miniflux_gid }}"
   with_items:
     - "{{ miniflux_base_path }}"
-    - "{{ miniflux_data_path }}"
 
 - name: Ensure miniflux support files installed
   ansible.builtin.template:

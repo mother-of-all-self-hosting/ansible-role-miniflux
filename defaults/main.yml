@@ -21,7 +21,6 @@ miniflux_path_prefix: /
 miniflux_version: 2.0.42
 
 miniflux_base_path: "/{{ miniflux_identifier }}"
-miniflux_data_path: "{{ miniflux_base_path }}/data"
 
 # Optional admin credentials to be created on startup.
 miniflux_admin_login: ''

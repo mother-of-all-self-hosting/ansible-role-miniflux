@@ -19,7 +19,7 @@ miniflux_hostname: ''
 miniflux_path_prefix: /
 
 # renovate: datasource=docker depName=docker.io/miniflux/miniflux versioning=semver
-miniflux_version: 2.2.7
+miniflux_version: 2.2.8
 
 miniflux_base_path: "/{{ miniflux_identifier }}"
 

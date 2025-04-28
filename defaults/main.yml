@@ -16,12 +16,12 @@ miniflux_version: 2.2.8
 miniflux_uid: ''
 miniflux_gid: ''
 
-# The hostname at which miniflux is served.
+# The hostname at which Miniflux is served.
 miniflux_hostname: ''
 
 miniflux_scheme: https
 
-# The path at which miniflux is served.
+# The path at which Miniflux is served.
 # This value must either be `/` or not end with a slash (e.g. `/miniflux`).
 miniflux_path_prefix: /
 

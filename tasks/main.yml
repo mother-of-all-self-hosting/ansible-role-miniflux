@@ -4,6 +4,7 @@
 
 ---
 - name: Perform Miniflux installation tasks
+  when: miniflux_enabled | bool
   tags:
     - setup-all
     - setup-miniflux
@@ -11,17 +12,15 @@
     - install-miniflux
   block:
     - name: Validate Miniflux configuration
-      when: miniflux_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
     - name: Install Miniflux
-      when: miniflux_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
 
 - name: Perform Miniflux uninstallation tasks
+  when: not miniflux_enabled | bool
   tags:
     - setup-all
     - setup-miniflux
   block:
     - name: Uninstall Miniflux
-      when: not miniflux_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"

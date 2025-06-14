@@ -33,10 +33,10 @@ miniflux_container_image_registry_prefix_upstream_default: docker.io/
 miniflux_container_image_force_pull: "{{ miniflux_container_image.endswith(':latest') }}"
 
 miniflux_container_image_self_build: false
-miniflux_container_image_name: "miniflux/v2:{{ miniflux_container_repo_version }}"
-miniflux_container_repo: "https://github.com/miniflux/v2.git"
-miniflux_container_repo_version: "{{ miniflux_version if miniflux_version != 'latest' else 'main' }}"
-miniflux_container_src_files_path: "{{ miniflux_base_path }}/docker-src"
+miniflux_container_image_self_build_name: "miniflux/v2:{{ miniflux_container_image_self_build_repo_version }}"
+miniflux_container_image_self_build_repo: "https://github.com/miniflux/v2.git"
+miniflux_container_image_self_build_repo_version: "{{ miniflux_version if miniflux_version != 'latest' else 'main' }}"
+miniflux_container_image_self_build_src_files_path: "{{ miniflux_base_path }}/docker-src"
 
 # The base container network. It will be auto-created by this role if it doesn't exist already.
 miniflux_container_network: "{{ miniflux_identifier }}"

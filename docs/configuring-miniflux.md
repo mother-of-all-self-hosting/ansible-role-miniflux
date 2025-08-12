@@ -18,11 +18,17 @@ SPDX-License-Identifier: AGPL-3.0-or-later
 
 # Setting up Miniflux
 
-This is an [Ansible](https://www.ansible.com/) role which installs [Miniflux](https://github.com/httpjamesm/Miniflux) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
+This is an [Ansible](https://www.ansible.com/) role which installs [Miniflux](https://miniflux.app/) to run as a [Docker](https://www.docker.com/) container wrapped in a systemd service.
 
-Miniflux allows you to view StackOverflow threads without exposing your IP address, browsing habits, and other browser fingerprinting data to the website.
+Miniflux is a minimalist and opinionated feed reader.
 
-See the project's [documentation](https://github.com/httpjamesm/Miniflux/blob/main/README.md) to learn what Miniflux does and why it might be useful to you.
+See the project's [documentation](https://miniflux.app/docs/index.html) to learn what Miniflux does and why it might be useful to you.
+
+## Prerequisites
+
+To run a Forgejo instance it is necessary to prepare a [Postgres](https://www.postgresql.org) database server.
+
+If you are looking for an Ansible role for it, you can check out [this role (ansible-role-postgres)](https://github.com/mother-of-all-self-hosting/ansible-role-postgres) maintained by the [Mother-of-All-Self-Hosting (MASH)](https://github.com/mother-of-all-self-hosting) team.
 
 ## Adjusting the playbook configuration
 
@@ -56,7 +62,28 @@ miniflux_hostname: "example.com"
 
 After adjusting the hostname, make sure to adjust your DNS records to point the domain to your server.
 
-**Note**: hosting Miniflux under a subpath (by configuring the `miniflux_path_prefix` variable) does not seem to be possible due to Miniflux's technical limitations.
+### Set variables for connecting to a Postgres database server
+
+To have the Miniflux instance connect to your Postgres server, add the following configuration to your `vars.yml` file.
+
+```yaml
+miniflux_database_username: YOUR_POSTGRES_SERVER_USERNAME_HERE
+miniflux_database_password: YOUR_POSTGRES_SERVER_PASSWORD_HERE
+miniflux_database_hostname: YOUR_POSTGRES_SERVER_HOSTNAME_HERE
+miniflux_database_port: 5432
+miniflux_database_name: YOUR_POSTGRES_SERVER_DATABASE_NAME_HERE
+```
+
+Make sure to replace values for variables with yours.
+
+### Add configurations for admin user (optional)
+
+If you wish to create an admin user on startup, you can specify the username and password of it by adding the following configuration to your `vars.yml` file.
+
+```yaml
+miniflux_admin_login: ADMIN_USERNAME_HERE
+miniflux_admin_password: ADMIN_PASSWORD_HERE
+```
 
 ### Extending the configuration
 
@@ -66,7 +93,7 @@ Take a look at:
 
 - [`defaults/main.yml`](../defaults/main.yml) for some variables that you can customize via your `vars.yml` file. You can override settings (even those that don't have dedicated playbook variables) using the `miniflux_environment_variables_additional_variables` variable
 
-See its [`docker-compose.example.yml`](https://github.com/httpjamesm/Miniflux/blob/main/docker-compose.example.yml) for a complete list of Miniflux's config options that you could put in `miniflux_environment_variables_additional_variables`.
+See the [documentation](https://miniflux.app/docs/configuration.html) for a complete list of Miniflux's config options that you could put in `miniflux_environment_variables_additional_variables`.
 
 ## Installing
 
@@ -80,11 +107,9 @@ If you use the MASH playbook, the shortcut commands with the [`just` program](ht
 
 ## Usage
 
-After running the command for installation, Miniflux becomes available at the specified hostname like `https://example.com`.
+After running the command for installation, the Miniflux instance becomes available at the URL specified with `miniflux_hostname` and `miniflux_path_prefix`. With the configuration above, the service is hosted at `https://example.com/miniflux`.
 
-[Libredirect](https://libredirect.github.io/), an extension for Firefox and Chromium-based desktop browsers, has support for redirections to Miniflux. See [this section](https://github.com/httpjamesm/Miniflux/blob/main/README.md#how-to-make-stack-overflow-links-take-you-to-miniflux-automatically) on the official documentation for more information.
-
-If you would like to make your instance public so that it can be used by anyone including Libredirect, please consider to send a PR to the [upstream project](https://github.com/httpjamesm/Miniflux) to add yours to [`instances.json`](https://github.com/httpjamesm/Miniflux/blob/main/instances.json), which Libredirect automatically fetches using a script (see [this FAQ entry](https://libredirect.github.io/faq.html#where_the_hell_are_those_instances_coming_from)).
+To get started, open the URL with a web browser to log in. You can create additional users (admin-privileged or not) after logging in with your administrator username (`miniflux_admin_login`) and password (`miniflux_admin_password`).
 
 ## Troubleshooting
 

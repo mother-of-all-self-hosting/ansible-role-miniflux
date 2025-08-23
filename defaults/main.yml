@@ -157,7 +157,10 @@ miniflux_systemd_required_services_list_auto: []
 miniflux_systemd_required_services_list_custom: []
 
 # List of systemd services that the Miniflux systemd service wants
-miniflux_systemd_wanted_services_list: []
+miniflux_systemd_wanted_services_list: "{{ miniflux_systemd_wanted_services_list_default + miniflux_systemd_wanted_services_list_auto + miniflux_systemd_wanted_services_list_custom }}"
+miniflux_systemd_wanted_services_list_default: []
+miniflux_systemd_wanted_services_list_auto: []
+miniflux_systemd_wanted_services_list_custom: []
 
 # Optional admin credentials to be created on startup.
 miniflux_admin_login: ''

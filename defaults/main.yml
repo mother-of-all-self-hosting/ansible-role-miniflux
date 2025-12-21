@@ -103,7 +103,7 @@ miniflux_container_labels_additional_labels: "{{ miniflux_container_labels_addit
 miniflux_container_labels_additional_labels_auto: {}
 miniflux_container_labels_additional_labels_custom: {}
 
-# A list of extra arguments to pass to the container
+# A list of extra arguments to pass to the container (`docker create` command)
 miniflux_container_extra_arguments: "{{ miniflux_container_extra_arguments_auto + miniflux_container_extra_arguments_custom }}"
 miniflux_container_extra_arguments_auto: []
 miniflux_container_extra_arguments_custom: []

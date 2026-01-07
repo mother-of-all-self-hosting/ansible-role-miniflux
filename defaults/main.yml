@@ -97,11 +97,11 @@ miniflux_container_labels_traefik_additional_response_headers_custom: {}
 #
 # Example:
 # miniflux_container_labels_additional_labels_custom: |
-#   my.label=1
-#   another.label="here"
-miniflux_container_labels_additional_labels: "{{ miniflux_container_labels_additional_labels_auto | combine(miniflux_container_labels_additional_labels_custom) }}"
-miniflux_container_labels_additional_labels_auto: {}
-miniflux_container_labels_additional_labels_custom: {}
+#   - my.label=1
+#   - another.label="here"
+miniflux_container_labels_additional_labels: "{{ miniflux_container_labels_additional_labels_auto + miniflux_container_labels_additional_labels_custom }}"
+miniflux_container_labels_additional_labels_auto: []
+miniflux_container_labels_additional_labels_custom: []
 
 # A list of extra arguments to pass to the container (`docker create` command)
 miniflux_container_extra_arguments: "{{ miniflux_container_extra_arguments_auto + miniflux_container_extra_arguments_custom }}"

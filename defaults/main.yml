@@ -54,7 +54,7 @@ miniflux_container_additional_networks_custom: []
 # miniflux_container_labels_traefik_enabled controls whether labels to assist a Traefik reverse-proxy will be attached to the container.
 # See `../templates/labels.j2` for details.
 #
-# To inject your own other container labels, see `miniflux_container_labels_additional_labels`.
+# To inject your own other container labels, see `miniflux_container_labels_additional_labels_custom`.
 miniflux_container_labels_traefik_enabled: true
 miniflux_container_labels_traefik_docker_network: "{{ miniflux_container_network }}"
 miniflux_container_labels_traefik_hostname: "{{ miniflux_hostname }}"

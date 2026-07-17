@@ -27,6 +27,9 @@ provisioner:
   inventory:
     group_vars:
       all:
+        # Helper variables
+        miniflux_debug_service_enabled: false
+
         # Variables for Miniflux
         miniflux_uid: 1000
         miniflux_gid: 1000

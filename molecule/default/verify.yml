@@ -23,6 +23,12 @@
         fail_msg: "miniflux.service not active ({{ miniflux_service.status.ActiveState }})"
         success_msg: "miniflux.service is active"
 
+    - name: Retrieve Miniflux service log for debugging
+      when: miniflux_debug_service_enabled | bool
+      ansible.builtin.command:
+        cmd: journalctl -xeu miniflux.service
+      changed_when: false
+
     - name: Wait for Miniflux HTTP endpoint to respond (up to 10m)
       ansible.builtin.uri:
         url: "http://localhost:8080/"

@@ -33,7 +33,8 @@ provisioner:
         # Variables for Miniflux
         miniflux_uid: 1000
         miniflux_gid: 1000
-        miniflux_hostname: miniflux
+        miniflux_scheme: http
+        miniflux_hostname: localhost
         miniflux_container_labels_traefik_enabled: false
         miniflux_container_http_host_bind_port: 8080
 

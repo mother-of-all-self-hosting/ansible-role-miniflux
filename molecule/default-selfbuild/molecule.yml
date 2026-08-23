@@ -39,6 +39,11 @@ provisioner:
         miniflux_container_labels_traefik_enabled: false
         miniflux_container_http_host_bind_port: 8080
 
+        # An admin account, so that the verification can exercise the REST API,
+        # which requires authentication, and not just the public endpoints.
+        miniflux_admin_login: molecule
+        miniflux_admin_password: molecule-password
+
         # Test self-building
         miniflux_container_image_self_build: true
 

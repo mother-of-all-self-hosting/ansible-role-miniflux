@@ -153,7 +153,7 @@
         return_content: true
       register: miniflux_api_version
 
-    - name: Assert the running version is the one the role asks for
+    - name: Assert the running Miniflux is the version this role installs
       ansible.builtin.assert:
         that: miniflux_api_version.json.version == miniflux_defaults.miniflux_version
         fail_msg: >-

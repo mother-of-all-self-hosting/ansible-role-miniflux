@@ -149,7 +149,7 @@
       ansible.builtin.assert:
         that: miniflux_api_version.json.version | default('') | length > 0
         fail_msg: "The self-built Miniflux did not report a version"
-        success_msg: "The self-built Miniflux reports version {{ miniflux_api_version.json.version }}"
+        success_msg: "The self-built Miniflux reports {{ miniflux_api_version.json.version }}"
 
     - name: Show the Miniflux verification summary
       ansible.builtin.debug:

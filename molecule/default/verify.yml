@@ -155,10 +155,8 @@
     - name: Assert the running Miniflux is the version this role installs
       ansible.builtin.assert:
         that: miniflux_api_version.json.version == miniflux_defaults.miniflux_version
-        fail_msg: >-
-          Miniflux reports version {{ miniflux_api_version.json.version | default('none') }},
-          but the role asks for {{ miniflux_defaults.miniflux_version }}
-        success_msg: "Miniflux reports version {{ miniflux_api_version.json.version }}"
+        fail_msg: "Miniflux reports {{ miniflux_api_version.json.version | default('none') }}, expected {{ miniflux_defaults.miniflux_version }}"
+        success_msg: "Miniflux reports {{ miniflux_api_version.json.version }}"
 
     - name: Show the Miniflux verification summary
       ansible.builtin.debug:

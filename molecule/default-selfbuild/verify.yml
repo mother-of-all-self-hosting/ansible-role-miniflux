@@ -151,12 +151,12 @@
         fail_msg: "The self-built Miniflux did not report a version"
         success_msg: "The self-built Miniflux reports version {{ miniflux_api_version.json.version }}"
 
-    - name: Show Miniflux verification summary
+    - name: Show the Miniflux verification summary
       ansible.builtin.debug:
         msg:
           - "Miniflux systemd: {{ miniflux_service.status.ActiveState }}"
-          - "Readiness probe: {{ miniflux_healthcheck.status }}"
-          - "Login page: {{ miniflux_login_page.status }}"
-          - "API user: {{ miniflux_api_me.json.username }}"
-          - "API category write: {{ miniflux_api_category_created.status }}"
-          - "Version: {{ miniflux_api_version.json.version }}"
+          - "Miniflux version: {{ miniflux_api_version.json.version }}"
+          - "Miniflux Readiness probe: {{ miniflux_healthcheck.status }}"
+          - "Miniflux Login page: {{ miniflux_login_page.status }}"
+          - "Miniflux API user: {{ miniflux_api_me.json.username }}"
+          - "Miniflux API category write: {{ miniflux_api_category_created.status }}"

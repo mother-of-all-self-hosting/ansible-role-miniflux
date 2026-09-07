@@ -121,7 +121,7 @@
     fail_msg: "The created category was not persisted: {{ miniflux_api_categories.json | default('no payload') }}"
     success_msg: "A category was written to and read back from the database"
 
-- name: Query the version reported by the running Miniflux
+- name: Query the version of the running Miniflux
   ansible.builtin.uri:
     url: "{{ miniflux_verify_base_url }}/v1/version"
     method: GET

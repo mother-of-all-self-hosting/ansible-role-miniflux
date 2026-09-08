@@ -28,7 +28,7 @@
 - name: Retrieve the Miniflux systemd service log for debugging
   when: miniflux_debug_service_enabled | bool
   ansible.builtin.command:
-    cmd: journalctl -xeu miniflux.service
+    cmd: journalctl --no-pager --output=cat --unit=miniflux.service
   changed_when: false
 
 # /healthcheck is Miniflux's readiness probe: it answers 200/OK only after

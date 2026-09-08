@@ -136,4 +136,4 @@
     force_basic_auth: true
     status_code: [200]
     return_content: true
-  register: miniflux_api_version
+  register: miniflux_version_reported

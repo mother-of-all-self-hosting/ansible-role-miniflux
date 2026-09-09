@@ -16,33 +16,33 @@
   tasks:
     - name: Verify that Miniflux works
       block:
-    # The role is not included in this playbook, so its defaults are not in
-    # scope. Reading defaults/main.yml directly ties the version assertion
-    # below.
-    - name: Load the role defaults
-      ansible.builtin.include_vars:
-        file: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
-        name: miniflux_defaults
+        # The role is not included in this playbook, so its defaults are not in
+        # scope. Reading defaults/main.yml directly ties the version assertion
+        # below.
+        - name: Load the role defaults
+          ansible.builtin.include_vars:
+            file: "{{ lookup('env', 'MOLECULE_PROJECT_DIRECTORY') }}/defaults/main.yml"
+            name: miniflux_defaults
 
-    - name: Run the checks shared by all Miniflux scenarios
-      ansible.builtin.include_tasks:
-        file: "{{ lookup('ansible.builtin.env', 'MOLECULE_PROJECT_DIRECTORY') }}/molecule/verify_tasks.yml"
+        - name: Run the checks shared by all Miniflux scenarios
+          ansible.builtin.include_tasks:
+            file: "{{ lookup('ansible.builtin.env', 'MOLECULE_PROJECT_DIRECTORY') }}/molecule/verify_tasks.yml"
 
-    - name: Assert the running Miniflux is the version this role installs
-      ansible.builtin.assert:
-        that: miniflux_version_reported.json.version == miniflux_defaults.miniflux_version
-        fail_msg: "Miniflux reports {{ miniflux_version_reported.json.version | default('none') }}, expected {{ miniflux_defaults.miniflux_version }}"
-        success_msg: "Miniflux reports {{ miniflux_version_reported.json.version }}"
+        - name: Assert the running Miniflux is the version this role installs
+          ansible.builtin.assert:
+            that: miniflux_version_reported.json.version == miniflux_defaults.miniflux_version
+            fail_msg: "Miniflux reports {{ miniflux_version_reported.json.version | default('none') }}, expected {{ miniflux_defaults.miniflux_version }}"
+            success_msg: "Miniflux reports {{ miniflux_version_reported.json.version }}"
 
-    - name: Show the Miniflux verification summary
-      ansible.builtin.debug:
-        msg:
-          - "Miniflux systemd: {{ miniflux_service.status.ActiveState }}"
-          - "Miniflux version: {{ miniflux_version_reported.json.version }}"
-          - "Miniflux readiness probe: {{ miniflux_healthcheck.status }}"
-          - "Miniflux login page: {{ miniflux_login_page.status }}"
-          - "Miniflux API user: {{ miniflux_api_me.json.username }}"
-          - "Miniflux API category write: {{ miniflux_api_category_created.status }}"
+        - name: Show the Miniflux verification summary
+          ansible.builtin.debug:
+            msg:
+              - "Miniflux systemd: {{ miniflux_service.status.ActiveState }}"
+              - "Miniflux version: {{ miniflux_version_reported.json.version }}"
+              - "Miniflux readiness probe: {{ miniflux_healthcheck.status }}"
+              - "Miniflux login page: {{ miniflux_login_page.status }}"
+              - "Miniflux API user: {{ miniflux_api_me.json.username }}"
+              - "Miniflux API category write: {{ miniflux_api_category_created.status }}"
 
       rescue:
         # Whatever went wrong, the reason is almost always in the systemd service log.

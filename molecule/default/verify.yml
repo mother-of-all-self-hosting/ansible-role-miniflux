@@ -13,6 +13,10 @@
   vars:
     miniflux_verify_base_url: "http://localhost:8080"
 
+    miniflux_verify_units:
+      - miniflux.service
+      - postgres.service
+
   tasks:
     - name: Verify that Miniflux works
       block:
@@ -37,7 +41,7 @@
         - name: Show the Miniflux verification summary
           ansible.builtin.debug:
             msg:
-              - "Miniflux systemd: {{ miniflux_service.status.ActiveState }}"
+              - "Miniflux systemd: {% for unit, state in miniflux_verify_units | zip(miniflux_services.results | map(attribute='status.ActiveState')) %}{{ unit }} ({{ state }}){% if not loop.last %}, {% endif %}{% endfor %}"
               - "Miniflux version: {{ miniflux_version_reported.json.version }}"
               - "Miniflux readiness probe: {{ miniflux_healthcheck.status }}"
               - "Miniflux login page: {{ miniflux_login_page.status }}"

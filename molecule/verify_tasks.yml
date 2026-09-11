@@ -5,13 +5,14 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 
 ---
-- name: Wait for the Miniflux systemd service to become active (up to 180s)
+- name: Wait for the Miniflux systemd services to become active (up to 180s each)
   ansible.builtin.systemd_service:
-    name: miniflux.service
-  register: miniflux_service
-  until: miniflux_service.status.ActiveState == 'active'
+    name: "{{ item }}"
+  register: miniflux_services
+  until: miniflux_services.status.ActiveState == 'active'
   retries: 36
   delay: 5
+  loop: "{{ miniflux_verify_units }}"
   # So that giving up is reported by the assertion below rather than as a
   # wall of systemd unit properties.
   failed_when: false
@@ -19,17 +20,20 @@
 # `Restart=always` in the systemd unit means that even a container which crashes
 # and gets restarted reads as active here, so this is a precondition rather than
 # a result.
-- name: Assert the Miniflux systemd service is active
+- name: Assert the Miniflux systemd services are active
   ansible.builtin.assert:
-    that: miniflux_service.status.ActiveState == 'active'
-    fail_msg: "miniflux.service is not active ({{ miniflux_service.status.ActiveState }})"
-    success_msg: "miniflux.service is active"
+    that: miniflux_services.results | map(attribute='status.ActiveState') | unique | list == ['active']
+    fail_msg: >-
+      Not every service is active:
+      {{ dict(miniflux_verify_units | zip(miniflux_services.results | map(attribute='status.ActiveState'))) }}
+    success_msg: "Every systemd service is active"
 
-- name: Retrieve the Miniflux systemd service log for debugging
+- name: Retrieve the Miniflux systemd services log for debugging
   when: miniflux_debug_service_enabled | bool
   ansible.builtin.command:
-    cmd: journalctl --no-pager --output=cat --unit=miniflux.service
+    cmd: "journalctl --no-pager --output=cat --unit={{ item }}"
   changed_when: false
+  loop: "{{ miniflux_verify_units }}"
 
 # /healthcheck is Miniflux's readiness probe: it answers 200/OK only after
 # it has successfully pinged its database, so a passing probe proves that

@@ -43,7 +43,7 @@
             msg:
               - "Miniflux systemd: {% for unit, state in miniflux_verify_units | zip(miniflux_services.results | map(attribute='status.ActiveState')) %}{{ unit }} ({{ state }}){% if not loop.last %}, {% endif %}{% endfor %}"
               - "Miniflux version: {{ miniflux_version_reported.json.version }}"
-              - "Miniflux readiness probe: {{ miniflux_healthcheck.status }}"
+              - "Miniflux readiness probe: {{ miniflux_health.status }}"
               - "Miniflux login page: {{ miniflux_login_page.status }}"
               - "Miniflux API user: {{ miniflux_api_me.json.username }}"
               - "Miniflux API category write: {{ miniflux_api_category_created.status }}"

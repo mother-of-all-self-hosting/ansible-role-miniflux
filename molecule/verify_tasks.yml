@@ -39,22 +39,25 @@
 # it has successfully pinged its database, so a passing probe proves that
 # the Postgres wiring of this scenario (Unix socket, credentials, managed
 # database) actually works, not merely that the process started.
-- name: Wait for the Miniflux readiness probe to pass (up to 300s)
+- name: Wait for Miniflux to report itself healthy (up to 180s)
   ansible.builtin.uri:
     url: "{{ miniflux_verify_base_url }}/healthcheck"
     method: GET
     status_code: [200]
     return_content: true
-  register: miniflux_healthcheck
-  until: miniflux_healthcheck.status == 200
-  retries: 60
+  register: miniflux_health
+  until: miniflux_health.status == 200 and miniflux_health.content is search('OK')
+  retries: 36
   delay: 5
+  # So that giving up is reported by the assertion below rather than as a
+  # wall of systemd unit properties.
+  failed_when: false
 
-- name: Assert the readiness probe reports a healthy database connection
+- name: Assert Miniflux reports itself healthy
   ansible.builtin.assert:
-    that: miniflux_healthcheck.content is search('OK')
-    fail_msg: "Unexpected /healthcheck body: {{ miniflux_healthcheck.content | default('no content') }}"
-    success_msg: "Miniflux is ready and connected to its database"
+    that: miniflux_health.content is search('OK')
+    fail_msg: "Miniflux did not report itself healthy: {{ miniflux_health.content | default('no response') }}"
+    success_msg: "Miniflux reports itself healthy"
 
 # An actual page render, which exercises template rendering and the static
 # asset pipeline rather than just the HTTP listener. Unauthenticated

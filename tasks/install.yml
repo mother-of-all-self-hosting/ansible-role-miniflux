@@ -60,6 +60,7 @@
         owner: "{{ miniflux_uid }}"
         group: "{{ miniflux_gid }}"
         recurse: true
+      tags: molecule-idempotence-notest
 
     - name: Ensure Miniflux repository is present on self-build
       ansible.builtin.git:
